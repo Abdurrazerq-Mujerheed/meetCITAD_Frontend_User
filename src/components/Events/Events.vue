@@ -13,14 +13,14 @@
                 </v-card>
             </v-flex>
         </v-layout>
-          <v-layout row wrap  color="blue--text" v-for="event in filteredEvent" :key="event.id" class="mb-2">
+          <v-layout row wrap  color="blue--text" v-for="event in filteredEvent" :key="event._id" class="mb-2">
             <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
                 <v-card>
                     <v-container fluid>
                         <v-layout row>
                             <v-flex xs5 sm4 md3>
                                 <v-card height="150" width="150">
-                                    <v-img :src="event.imageUrl"
+                                    <v-img :src="`http://localhost:3030/${event.eventImage}`"
                                     height="100%" width="100%" alt="" srcset="" class="grey darken-4">
                                     </v-img>
                                 </v-card>
@@ -33,7 +33,7 @@
                                     </div>
                                 </v-card-title>
                                 <v-card-actions>
-                                    <v-btn color="primary" text :to="'/events/' + event.id">
+                                    <v-btn color="primary" text :to="'/events/' + event._id">
                                         <v-icon left>arrow_forward</v-icon>
                                         View event
                                     </v-btn>
@@ -59,7 +59,7 @@ export default {
 
     computed: {
         filteredEvent (){
-            return this.$store.getters.LoadedEvents.filter((event) => {
+            return this.$store.getters.LoadEvents.filter((event) => {
                 return event.title.match(this.searchByTitle)
             })
         }

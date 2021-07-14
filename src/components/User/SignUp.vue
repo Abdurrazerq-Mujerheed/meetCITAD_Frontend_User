@@ -19,7 +19,6 @@
                                        <v-text-field
                                            name="fullname"
                                            label="Full Name"
-                                           id="fullname"
                                            type="text"
                                            v-model="fullname"
                                            required
@@ -31,7 +30,6 @@
                                        <v-text-field
                                            name="email"
                                            label="Email"
-                                           id="email"
                                            type="email"
                                            v-model="email"
                                            required
@@ -41,9 +39,27 @@
                                <v-layout row wrap>
                                    <v-flex xs12>
                                        <v-text-field
+                                           name="organisation"
+                                           label="Organisation"
+                                           v-model="organisation"
+                                           required
+                                       ></v-text-field>
+                                   </v-flex>
+                               </v-layout>
+                               <v-layout row wrap>
+                                   <v-flex xs12>
+                                       <v-select
+                                           :items="genders"
+                                            v-model="gender"
+                                           label="Gender"
+                                       ></v-select>
+                                   </v-flex>
+                               </v-layout>
+                               <v-layout row wrap>
+                                   <v-flex xs12>
+                                       <v-text-field
                                            name="username"
                                            label="Username"
-                                           id="username"
                                            type="text"
                                            v-model="username"
                                            required
@@ -55,7 +71,6 @@
                                        <v-text-field
                                            name="password"
                                            label="Password"
-                                           id="password"
                                            type="password"
                                            v-model="password"
                                            required
@@ -67,7 +82,6 @@
                                        <v-text-field
                                            name="comfirmPassword"
                                            label="Comfirm Password"
-                                           id="comfirmPassword"
                                            type="password"
                                            v-model="comfirmPassword"
                                            :rules="[matchPassword]"
@@ -101,30 +115,27 @@ export default {
         email: '',
         username: '',
         password: '',
-        comfirmPassword: ''
+        comfirmPassword: '',
+        organisation: '',
+        gender: '',
+        genders: ['Male', 'Female', 'Others']
     }),
     computed: {
         matchPassword (){
             return this.password === this.comfirmPassword ? '' : 'Please check, the password doesnt match'
         },
-        user (){
-            return this.$store.getters.getUser
-        }
+        
     },
-    watch: {
-        user (value){
-            if (value !== null && value !== undefined){
-                this.$router.push('/')
-            }
-        }
-    },
+
     methods: {
         onSignUp (){
-            this.$store.dispatch('UserData', {
+            this.$store.dispatch('userSignUp', {
                 fullname: this.fullname,
                 email: this.email,
                 username: this.username,
                 password: this.password,
+                organisation: this.organisation,
+                gender: this.gender
             })
         }
     }

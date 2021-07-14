@@ -4,24 +4,25 @@
             <v-flex xs12 sm6 offset-sm3>
                 <v-card>
                     <v-container grid-list-xs>
-                        <v-form>
+                        <form method="POST" @submit="sendComment">
                             <v-card-text>
                                 <v-text-field
-                                    name="emial"
+                                    name="email"
                                     label="E-mail"
+                                    v-model.trim="comments.email"
                                 ></v-text-field>
                                 <v-textarea
                                     clearable
                                     clear-icon="mdi-close-circle"
                                     label="Word of Advice or suggestion"
-
+                                    v-model="comments.suggestion"
                                 ></v-textarea>
                             </v-card-text>
                             <v-divider></v-divider>
                             <v-card-actions>
-                                <v-btn color="success">Send</v-btn>
+                                <v-btn color="primary" type="submit">Send</v-btn>
                             </v-card-actions>
-                        </v-form>
+                        </form>
                     </v-container>
                 </v-card>
             </v-flex>
@@ -33,8 +34,16 @@
 export default {
     name: 'SuggestionBox',
     data: ()=> ({
-        suggestion: '',
-        email: ''
+        comments: {}
     }),
+
+    methods: {
+        sendComment() {
+            this.$store.dispatch('postSuggestion', this.comments )
+            
+            this.comments.email = ''
+            this.comments.suggestion = ''
+        }
+    }
 }
 </script>

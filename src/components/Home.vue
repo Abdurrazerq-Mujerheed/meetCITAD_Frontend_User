@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="!userAuthentication">
+        <template v-if="!userAuth">
             <Welcome />
         </template>
         <template v-else>
@@ -23,9 +23,9 @@
                 <v-carousel>
                     <v-carousel-item
                         v-for="event in events"
-                        :src="event.imageUrl"
-                        :key="event.id"
-                        @click="onLoadEvent(event.id)"
+                        :src="`http://localhost:3030/${event.eventImage}`"
+                        :key="event._id"
+                        @click="onLoadEvent(event._id)"
                     >
                     <div class="title">
                         {{ event.title }}
@@ -45,27 +45,36 @@ import Welcome from '@/views/Welcome.vue'
 
 export default {
     name: 'Home',
+    created() {
+        this.$store.dispatch('fetchEvents')
+    },
+
     data (){
         return {
             
         }
     },
+    
     methods: {
         onLoadEvent(id) {
             this.$router.push('/events/' + id)
         }
     },
+    
     computed: {
         events (){
             return this.$store.getters.featuredEvent
         },
-        userAuthentication (){
-            return (this.$store.getters.getUser !== null && this.$store.getters.getUser !== undefined) 
+
+        userAuth (){
+            return this.$store.getters.login == true 
         },
+        
         user(){
             return this.$store.getters.getUser
         }
     },
+    
     components: {
         Welcome
     }

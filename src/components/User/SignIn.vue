@@ -45,12 +45,12 @@
                                         ></v-text-field>
                                     </v-flex>
                                     <v-flex xs12>
-                                        <router-link to="/forgotpassword">Forgot Password </router-link>
+                                        <ForgotPassword />
                                     </v-flex>
                                 </v-layout>
                                 <v-card-actions>
                                     <v-layout row wrap>
-                                        <v-flex xs12 sm6>
+                                        <v-flex xs12 sm6 justify-center>
                                             <v-btn color="blue--text" type="submit">Sign In</v-btn>
                                         </v-flex>
                                     </v-layout>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import ForgotPassword from './ForgotPassword.vue'
 export default {
     name: 'SignIn',
     data: () => ({
@@ -72,28 +73,18 @@ export default {
         password: '',
         show: false
     }),
-    computed: {
-        user (){
-            return this.show
-        }
-    },
-    watch: {
-        user (value){
-            if (value){
-                this.$router.push('/')
-            }
-        }
-    },
+
     methods: {
         onSignIn (){
-            if (this.$store.getters.getUser.username === this.username && this.$store.getters.getUser.password === this.password){
-                console.log('Hello You are authenticated')
-                this.show = true
-            }
-            else {
-                console.log('Something is wrong')
-            }
+            return this.$store.dispatch('userSignIn', {
+                username: this.username, 
+                password: this.password
+            })
         }
-    }
+    },
+
+    components: { 
+      ForgotPassword 
+    },
 }
 </script>

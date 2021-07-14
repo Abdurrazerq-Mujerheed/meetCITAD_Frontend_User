@@ -35,6 +35,7 @@
       <v-app-bar-nav-icon
         @click.stop="sideNav = !sideNav"
         class="hidden-lg-only"
+        v-if="userAuth"
       ></v-app-bar-nav-icon>
       <v-app-bar-title>
         <router-link to="/" class="styleLink">meetCITAD</router-link>
@@ -58,7 +59,7 @@
         </v-btn>
       </v-toolbar-items>
 
-      <v-toolbar-items v-if="userAuthentication">
+      <v-toolbar-items v-if="userAuth">
         <v-list>
           <v-list-group
             :value="false"
@@ -71,13 +72,15 @@
               <v-list-item-avatar>
                 <v-avatar
                   size="45"
+                  contain
                 >
-                  <v-img src="" height="50" width="50"></v-img>
+                  <v-img v-if="user.profileImage" :src="`http://localhost:3030/${user.profileImage}`" height="50" width="50"></v-img>
+                  <v-img v-else src="../../public/img/icons/android-chrome-maskable-512x512.png" height="50" width="50"></v-img>
                 </v-avatar>
                 </v-list-item-avatar>
-                <router-link to="/profile">
+                <router-link :to="`profile/${user.username}`">
                   <v-list-item-content>
-                    <v-list-item-subtitle class="subheading">@ </v-list-item-subtitle>
+                    <v-list-item-subtitle class="subheading">@ {{ user.username }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </router-link>
             </v-list-item>
@@ -113,7 +116,7 @@ export default {
       {icon: 'lock_open', title: 'SignUp', toLink: '/signup'}
     ]
 
-    if (this.userAuthentication) {
+    if (this.userAuth) {
       navList = [
         {icon: 'event', title: 'View Events', toLink: '/events'}, 
         {icon: 'class', title: 'Suggestion Box', toLink: '/suggestionbox'}, 
@@ -124,13 +127,14 @@ export default {
     return navList
     },
     
-    userAuthentication (){
-      return (this.$store.getters.getUser !== null && this.$store.getters.getUser !== undefined) 
+    userAuth (){
+      return (this.$store.getters.login !== false && this.$store.getters.login !== undefined) 
     },
 
     Notification(){
-      return this.$store.state.Notification.length
+      return this.$store.getters.sortedNotification.length
     },
+
     user() {
       return this.$store.getters.getUser
     }
@@ -138,7 +142,7 @@ export default {
   methods: {
 
     logout() {
-      return this.$store.getters.getUser = null
+      return this.$store.dispatch('userSignOut')
     }
   }
 }

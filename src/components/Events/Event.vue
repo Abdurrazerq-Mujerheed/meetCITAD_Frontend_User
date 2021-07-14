@@ -7,7 +7,7 @@
                         <v-col cols="5" xs5 sm6>
                             <v-card>
                                 <v-img
-                                    :src="events.imageUrl"
+                                    :src="`http://localhost:3030/${events.eventImage}`"
                                     height="400px"
                                     width="auto"
                                     fill-height
@@ -34,7 +34,7 @@
                                         <div>Venue: {{ events.venue }}</div>
                                    </v-flex>
                                    <v-flex xs4 align-self-end class="text-left">
-                                        <div>Host by: {{ events.host }}</div>
+                                        <div>Host by: {{ events.hostBy }}</div>
                                    </v-flex>
                                </v-layout>
                            </v-card-text> 
@@ -46,10 +46,15 @@
                             <v-card-actions>
                                 <v-layout row wrap>
                                     <v-flex xs6 class="text-right pr-3">
-                                        <v-btn color="primary" large>Cancel</v-btn>
+                                        <v-btn color="primary" large @click="back">Cancel</v-btn>
                                     </v-flex>
                                     <v-flex xs6 class="text-left pl-3">
-                                        <v-btn color="primary" large>Register</v-btn>
+                                        <v-btn color="primary" large
+                                            v-if="!register" 
+                                            @click="registerEvent">Register</v-btn>
+                                        <v-btn color="primary" large
+                                            v-if="register" 
+                                            @click="unregisterEvent">Unregister</v-btn>
                                     </v-flex>
                                 </v-layout>  
                             </v-card-actions>
@@ -71,11 +76,33 @@ export default {
     },
     computed: {
         events (){
-            return this.$store.getters.LoadedEvent(this._id)
+            return this.$store.getters.singleEvent(this._id)
+        },
+        register() {
+            return (this.$store.getters.getUser.registeredEvent).findIndex(ev => ev == this._id) >= 0
         }
     },
     methods: {
-        
+        back() {
+            this.$router.back()
+        },
+
+        registerEvent() {
+            let data = {
+                userId: this.$store.getters.getUser._id,
+                eventID: this._id 
+            }
+            this.$store.dispatch('registerEvent', data)
+        },
+
+        unregisterEvent() {
+            let data = {
+                userId: this.$store.getters.getUser._id,
+                eventID: this._id 
+            }
+            this.$store.dispatch('unregisterEvent', data)
+            //console.log(`You Unregister the event with ${eventID} and ${userId}`)
+        }
     },
 }
 </script>
