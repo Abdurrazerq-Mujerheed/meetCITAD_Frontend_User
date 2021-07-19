@@ -5,7 +5,7 @@
                 <div>
                     <v-img
                         src="../assets/image/citad.jpeg"
-                        height="200"
+                        height="500"
                         width="200"
                         position="center"
                     ></v-img>

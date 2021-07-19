@@ -29,7 +29,7 @@
                                 <v-card-title>
                                     <div>
                                         <h2 class="mb-0">{{event.title}}</h2>
-                                        <div>{{event.date}}</div>
+                                        <div>{{event.date | formatDate }}</div>
                                     </div>
                                 </v-card-title>
                                 <v-card-actions>

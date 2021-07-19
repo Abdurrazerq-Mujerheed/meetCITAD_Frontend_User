@@ -16,7 +16,7 @@
             <v-icon> person </v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <router-link to="'/profile/' + '/:username'" class="styleLink"></router-link>
+            <router-link :to="`profile/${user.username}`" class="styleLink">Profile</router-link>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -74,13 +74,12 @@
                   size="45"
                   contain
                 >
-                  <v-img v-if="user.profileImage" :src="`http://localhost:3030/${user.profileImage}`" height="50" width="50"></v-img>
-                  <v-img v-else src="../../public/img/icons/android-chrome-maskable-512x512.png" height="50" width="50"></v-img>
+                  <v-icon large>person</v-icon>
                 </v-avatar>
                 </v-list-item-avatar>
                 <router-link :to="`profile/${user.username}`">
                   <v-list-item-content>
-                    <v-list-item-subtitle class="subheading">@ {{ user.username }}</v-list-item-subtitle>
+                    <v-list-item-subtitle class="subheading">my Profile</v-list-item-subtitle>
                   </v-list-item-content>
                 </router-link>
             </v-list-item>

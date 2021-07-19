@@ -6,9 +6,9 @@ export const state = {
 
   EventList: null,
   
-  Success: null,
-  
-  Failed: null,
+  Message: '',
+
+  Error: '',
 
   Loading: false,
   

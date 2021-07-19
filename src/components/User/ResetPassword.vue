@@ -5,19 +5,25 @@
         <v-col>
           <h3>Please enter a new Password</h3>
           <form method="post" @submit.prevent="submitRequest">
-            <v-text-field
-              name="new_password"
-              label="New Password"
-              v-model="newPassword"
-              type="password"
-            ></v-text-field>
+            <div>
+              <v-text-field
+                name="new_password"
+                label="New Password"
+                v-model="newPassword"
+                type="password"
+              ></v-text-field>
+            </div>
+            <div>
+              <v-text-field
+                :class="{invalid: $v.comfirm.$error}"
+                name="comfirm_password"
+                label="Comfirm Password"
+                v-model="comfirmPassword"
+                type="password"
+                @blur="$v.comfirm.$touch()"
+              ></v-text-field>
+            </div>
 
-            <v-text-field
-              name="comfirm_password"
-              label="Comfirm Password"
-              v-model="comfirmPassword"
-              type="password"
-            ></v-text-field>
 
             <v-btn color="primary" type="submit">Save</v-btn>
           </form>
@@ -28,6 +34,8 @@
 </template>
 
 <script>
+import { sameAs } from 'vuelidate/lib/validators'
+
 export default {
   props:['token'],
   data() {
@@ -39,19 +47,28 @@ export default {
 
   methods: {
     submitRequest() {
-      if(this.new_password !== this.comfirm_password) {
-        return alert("Please Check the password is not the same")
-      }
       let passwordData = {
         password: this.newPassword,
         token: this.token
       }
       this.$store.dispatch('newPassword', passwordData)
     }
-  }
+  },
+
+  validations: {
+    comfirm: {
+      sameAs: sameAs(vm => {
+        return vm.newPassword
+      })
+    }
+  },
+
 }
 </script>
 
-<style>
-
+<style scoped>
+  .v-text-field.invalid {
+    color: red;
+    border: 1px solid red;
+  }
 </style>

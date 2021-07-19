@@ -29,7 +29,7 @@
                            <v-card-text>
                                <v-layout row wrap>
                                    <v-flex xs8>
-                                        <div>Date: {{ events.date }}</div>
+                                        <div>Date: {{ events.date | formatDate}}</div>
                                         <div>Time: {{ events.time }}</div>
                                         <div>Venue: {{ events.venue }}</div>
                                    </v-flex>
@@ -48,13 +48,10 @@
                                     <v-flex xs6 class="text-right pr-3">
                                         <v-btn color="primary" large @click="back">Cancel</v-btn>
                                     </v-flex>
-                                    <v-flex xs6 class="text-left pl-3">
-                                        <v-btn color="primary" large
-                                            v-if="!register" 
-                                            @click="registerEvent">Register</v-btn>
-                                        <v-btn color="primary" large
-                                            v-if="register" 
-                                            @click="unregisterEvent">Unregister</v-btn>
+                                    <v-flex xs6 class="text-left pl-3 mt-3">
+                                        <template>
+                                            <alert-dialog :eventId="events._id"></alert-dialog>
+                                        </template>
                                     </v-flex>
                                 </v-layout>  
                             </v-card-actions>
@@ -67,41 +64,27 @@
 </template>
 
 <script>
+import AlertDialog from './AlertDialog.vue'
 export default {
     props: ['_id'],
     data(){
         return {
-            dialog: false
+            
         }
     },
+    
+    components:{
+        AlertDialog
+    },
+
     computed: {
         events (){
             return this.$store.getters.singleEvent(this._id)
-        },
-        register() {
-            return (this.$store.getters.getUser.registeredEvent).findIndex(ev => ev == this._id) >= 0
         }
     },
     methods: {
         back() {
             this.$router.back()
-        },
-
-        registerEvent() {
-            let data = {
-                userId: this.$store.getters.getUser._id,
-                eventID: this._id 
-            }
-            this.$store.dispatch('registerEvent', data)
-        },
-
-        unregisterEvent() {
-            let data = {
-                userId: this.$store.getters.getUser._id,
-                eventID: this._id 
-            }
-            this.$store.dispatch('unregisterEvent', data)
-            //console.log(`You Unregister the event with ${eventID} and ${userId}`)
         }
     },
 }

@@ -46,6 +46,17 @@
                                        ></v-text-field>
                                    </v-flex>
                                </v-layout>
+                                <v-layout row wrap>
+                                   <v-flex xs12>
+                                       <v-text-field
+                                           name="phone"
+                                           label="Phone Number"
+                                           v-model="phone_number"
+                                           type="tel"
+                                           required
+                                       ></v-text-field>
+                                   </v-flex>
+                               </v-layout>               
                                <v-layout row wrap>
                                    <v-flex xs12>
                                        <v-select
@@ -78,13 +89,13 @@
                                    </v-flex>
                                </v-layout>
                                <v-layout row wrap>
-                                   <v-flex xs12>
+                                   <v-flex xs12 :class="{invalid: $v.comfirmPassword.$error}">
                                        <v-text-field
                                            name="comfirmPassword"
                                            label="Comfirm Password"
                                            type="password"
                                            v-model="comfirmPassword"
-                                           :rules="[matchPassword]"
+                                           @blur="$v.comfirmPassword.$touch()"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -108,6 +119,7 @@
 </template>
 
 <script>
+import { sameAs } from 'vuelidate/lib/validators'
 export default {
     name: 'Signup',
     data: () => ({
@@ -118,6 +130,7 @@ export default {
         comfirmPassword: '',
         organisation: '',
         gender: '',
+        phone_number: '',
         genders: ['Male', 'Female', 'Others']
     }),
     computed: {
@@ -135,9 +148,25 @@ export default {
                 username: this.username,
                 password: this.password,
                 organisation: this.organisation,
+                phone: this.phone_number,
                 gender: this.gender
             })
+        }
+    },
+
+    validations: {
+        comfirmPassword: {
+            sameAs: sameAs('password')
         }
     }
 }
 </script>
+
+<style scoped>
+    .v-text-field.invalid {
+        border: 1px solid red;
+    }
+    .v-text-field.label.invalid {
+        border: 1px solid red;
+    }    
+</style>

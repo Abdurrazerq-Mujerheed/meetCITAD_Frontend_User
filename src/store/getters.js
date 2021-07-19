@@ -18,7 +18,7 @@ export const getters = {
   },
   
   sortedNotification (state){
-    return state.RegisteredEvent.sort((eventA, eventB) => {
+    return state.RegisteredEvents.sort((eventA, eventB) => {
       return eventA.date > eventB.date
     })
   },
@@ -33,5 +33,17 @@ export const getters = {
 
   getComments (state) {
     return state.SuggestionBox
+  },
+
+  message(state) {
+    return state.Message
+  },
+
+  error(state) {
+    return state.Error
+  },
+
+  loading (state) {
+    return state.Loading
   }
 }

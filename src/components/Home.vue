@@ -19,6 +19,16 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap class="mt-2">
+            <v-card-text class="text-center">
+                <v-progress-circular 
+                    :width="8" 
+                    :size="100" 
+                    color="primary" 
+                    indeterminate
+                    v-if="loading"
+                ></v-progress-circular>
+            </v-card-text>
+
             <v-flex xs-12>
                 <v-carousel>
                     <v-carousel-item
@@ -46,7 +56,7 @@ import Welcome from '@/views/Welcome.vue'
 export default {
     name: 'Home',
     created() {
-        this.$store.dispatch('fetchEvents')
+        //this.$store.dispatch('fetchEvents')
     },
 
     data (){
@@ -72,6 +82,10 @@ export default {
         
         user(){
             return this.$store.getters.getUser
+        },
+
+        loading() {
+            return this.$store.getters.loading
         }
     },
     

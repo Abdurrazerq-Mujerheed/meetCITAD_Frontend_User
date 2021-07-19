@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Authenticated from './route-guard'
 import Home from '@/components/Home'
 import Events from '@/components/Events/Events'
 import Event from '@/components/Events/Event'
@@ -25,35 +26,26 @@ const routes = [
     path: '/events',
     name: 'Events',
     component: Events,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   },
   {
     path: '/reset-password/:token',
     name: 'Reset-Password',
     props: true,
-    component: Reset,
-    meta: {
-      requireAuth: true
-    }
+    component: Reset
   },
   {
     path: '/events/:_id',
     name: 'Event',
     props: true,
     component: Event,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   },
   {
     path: '/profile/:username',
     name: 'Profile',
     component: Profile,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   },
   {
     path: '/signin',
@@ -69,38 +61,21 @@ const routes = [
     path: '/notification',
     name: 'Notification',
     component: Notification,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   },
   {
     path: '/aboutus',
     name: 'AboutUs',
     component: AboutUs,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   },
   {
     path: '/suggestionbox',
     name: 'SuggestionBox',
     component: SuggestionBox,
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: Authenticated
   }
 ]
-
-// router.beforeEach((to, from, next) => {
-//   // to and from are both route objects. must call `next`.
-//   let token = localStorage.getItem('UserToken')
-//   let requiresAuth = to.matched.some(record => record.meta.requireAuth)
-//   if(!token && requiresAuth) {
-//     next('/signin')
-//   }else {
-//     next()
-//   }
-// })
 
 const router = new VueRouter({
   mode: 'history',
