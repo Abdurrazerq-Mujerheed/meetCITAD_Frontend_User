@@ -1,27 +1,30 @@
 <template>
     <v-container grid-list-xs>
-        <v-layout row wrap>
+        <v-img
+            src="@/assets/image/bg-image3.jpeg"
+            position="center"
+            contain
+        >
+        <v-layout row wrap  style="margin-top:50px">
             <v-flex xs12 sm6 offset-xs3>
                 <v-card>
-                    <v-card-text v-if="error">
-                        <v-snackbar
-                            v-model="value"
-                            :top="true"
-                            color="warning"
-                            timeout="3000"
-                            outlined
-                        >
-                           {{ error }}
-                            <v-btn text color="primary" @click.native="value = false">Cancel</v-btn>
-                        </v-snackbar>
-                    </v-card-text>
                     <v-card-title>
+                    <v-card align-center v-if="error">
+                        <v-alert type="error" dismissible v-model="value" :value="true">
+                            {{ error }}
+                        </v-alert>
+                    </v-card>
+                    <v-card align-center v-if="message">
+                        <v-alert type="success" dismissible v-model="value" :value="true">
+                            {{ message }}
+                        </v-alert>
+                    </v-card>                        
                        <v-layout row wrap>
                            <v-flex xs12 class="text-sm-center">
                                <v-avatar
                                    size="100"
                                >
-                                   <img src="@/assets/image/citad.jpeg" alt="alt">
+                                   <img src="@/assets/image/avatar.png" alt="alt">
                                </v-avatar>
                                <h2>Sign In</h2>
                            </v-flex>
@@ -62,19 +65,18 @@
                                         <ForgotPassword />
                                     </v-flex>
                                 </v-layout>
-                                <v-card-actions>
-                                    <v-layout row wrap>
-                                        <v-flex xs12 sm6 justify-center>
-                                            <v-btn color="blue--text" type="submit">Sign In</v-btn>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-card-actions>
+                                <v-layout row wrap>
+                                    <v-flex xs12 class="text-center">
+                                        <v-btn color="blue--text" type="submit">Sign In</v-btn>
+                                    </v-flex>
+                                </v-layout>
                             </form>
                         </v-container>
                     </v-card-text>
                 </v-card>
             </v-flex>
         </v-layout>
+        </v-img>
     </v-container>
 </template>
 
@@ -87,7 +89,7 @@ export default {
         username: '',
         password: '',
         show: false,
-        value: false
+        snackbar: false
     }),
 
     methods: {
@@ -104,6 +106,10 @@ export default {
         error() {
             return this.$store.getters.error
         },
+
+        message() {
+            return this.$store.getters.message
+        }
 
     },
 

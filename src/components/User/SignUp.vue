@@ -1,8 +1,23 @@
 <template>
    <v-container>
+        <v-img
+            src="@/assets/image/bg-image3.jpeg"
+            position="center"
+            contain
+        >
        <v-layout row wrap>
-           <v-flex xs12 sm6 offset-xs3>
+           <v-flex xs12 sm6 offset-xs3 mt-5>
                <v-card>
+                   <v-card-text v-if="message">
+                        <v-snackbar
+                            color="success"
+                            :timeout="3000"
+                            outlined
+                            top
+                        >
+                            {{ message }}
+                        </v-snackbar>
+                        </v-card-text>
                    <v-card-title >
                        <v-layout row wrap>
                            <v-flex xs12 class="text-sm-center">
@@ -20,7 +35,7 @@
                                            name="fullname"
                                            label="Full Name"
                                            type="text"
-                                           v-model="fullname"
+                                           v-model.trim="fullname"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -31,7 +46,7 @@
                                            name="email"
                                            label="Email"
                                            type="email"
-                                           v-model="email"
+                                           v-model.trim="email"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -41,7 +56,7 @@
                                        <v-text-field
                                            name="organisation"
                                            label="Organisation"
-                                           v-model="organisation"
+                                           v-model.trim="organisation"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -51,7 +66,7 @@
                                        <v-text-field
                                            name="phone"
                                            label="Phone Number"
-                                           v-model="phone_number"
+                                           v-model.trim="phone_number"
                                            type="tel"
                                            required
                                        ></v-text-field>
@@ -61,7 +76,7 @@
                                    <v-flex xs12>
                                        <v-select
                                            :items="genders"
-                                            v-model="gender"
+                                            v-model.trim="gender"
                                            label="Gender"
                                        ></v-select>
                                    </v-flex>
@@ -72,7 +87,7 @@
                                            name="username"
                                            label="Username"
                                            type="text"
-                                           v-model="username"
+                                           v-model.trim="username"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -83,7 +98,7 @@
                                            name="password"
                                            label="Password"
                                            type="password"
-                                           v-model="password"
+                                           v-model.trim="password"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -94,27 +109,24 @@
                                            name="comfirmPassword"
                                            label="Comfirm Password"
                                            type="password"
-                                           v-model="comfirmPassword"
+                                           v-model.trim="comfirmPassword"
                                            @blur="$v.comfirmPassword.$touch()"
                                            required
                                        ></v-text-field>
                                    </v-flex>
                                </v-layout>
-                               
-                               <v-card-actions>
-                                   <v-spacer></v-spacer>
-                                  <v-layout row wrap>
-                                        <v-flex xs12>
-                                            <v-btn type="submit">Sign Up</v-btn>
-                                        </v-flex>
-                                    </v-layout>     
-                               </v-card-actions>
+                                <v-layout row wrap>
+                                    <v-flex xs12 class="text-center">
+                                        <v-btn type="submit">Sign Up</v-btn>
+                                    </v-flex>
+                                </v-layout>
                            </v-form>
                        </v-container>
                    </v-card-text>
                </v-card>
            </v-flex>
        </v-layout>
+        </v-img>
    </v-container>
 </template>
 
@@ -133,12 +145,6 @@ export default {
         phone_number: '',
         genders: ['Male', 'Female', 'Others']
     }),
-    computed: {
-        matchPassword (){
-            return this.password === this.comfirmPassword ? '' : 'Please check, the password doesnt match'
-        },
-        
-    },
 
     methods: {
         onSignUp (){
@@ -151,6 +157,12 @@ export default {
                 phone: this.phone_number,
                 gender: this.gender
             })
+        }
+    },
+    
+    computed: {
+        message() {
+            return this.$store.getters.message
         }
     },
 

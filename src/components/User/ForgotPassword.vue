@@ -17,18 +17,16 @@
       <v-card xs12 sm6 offset-sm3>
         <v-card-text v-if="fakeMail">
           <v-snackbar
-            v-model="value"
-            :top="true"
+            top
             color="warning"
             timeout="3000"
             outlined
           >
-            The Email You entered Does not exist
-            <v-btn text color="primary" @click.native="value = false">Cancel</v-btn>
+            {{ fakeMail }}
         </v-snackbar>
         </v-card-text>
         <v-card-title primary-title>
-          <v-toolbar color="primary" dense>
+          <v-toolbar color="primary" dense dark>
             <h3 style="text-align: center"> Forgot Password</h3>
           </v-toolbar>
         </v-card-title>

@@ -21,19 +21,19 @@
                 <!-- Profile User!-->
                 <form 
                     @submit.prevent="onSubmitData" 
-                    :disabled="isDisplay"
+                    :disabled="true"
                     ref="myForm"
                     enctype="multipart/form-data">
                   <v-card>
+                    <v-card-text v-if="message">
+                      <v-alert type="success" dismissible dense outlined text :value="true">
+                        {{ message }}
+                      </v-alert>
+                    </v-card-text>
                     <v-card-text v-if="error">
-                      <v-snackbar
-                        color="warning"
-                        v-model="value"
-                        :timeout="3000"
-                      >
-                        Error While updating the profile...
-                        <v-btn dark flat @click.native="value = false">Close</v-btn>
-                      </v-snackbar>
+                      <v-alert type="error" dismissible dense outlined text :value="true">
+                        {{ error }}
+                      </v-alert>
                     </v-card-text>
                     <v-toolbar dense flat>
                         <h3>Personal Information</h3>
@@ -48,7 +48,7 @@
                             <v-flex xs5 sm12 class="text-center">
                                 <v-avatar class="d-flex justify-center" size="large" rounded="">
                                   <v-img v-if="User.profileImage" :src="`http://localhost:3030/${User.profileImage}`" height="150" width="150"></v-img>
-                                  <v-img v-else src="@/assets/image/citad.jpeg" height="150" width="150"></v-img>
+                                  <v-img v-else src="@/assets/image/avatar.png" height="150" width="150"></v-img>
                                   <v-img :src="myImage" height="150" width="150"></v-img>
                                 </v-avatar>
                                 <v-btn text @click="onClicked" class="text-right xs6"><v-icon>add_a_photo</v-icon></v-btn>
@@ -69,7 +69,7 @@
                           label="Full Name"
                           v-model="User.fullname"
                           type="text"
-                          
+                          :disabled="isDisplay"
                           :style="{display: isDisplay ? 'none' : ''}"
                           
                       ></v-text-field>
@@ -78,7 +78,7 @@
                           label="Username"
                           v-model="User.username"
                           type="text"
-                          
+                          :disabled="isDisplay"
                           :style="{display: isDisplay ? 'none' : ''}"
                           
                       ></v-text-field>
@@ -87,19 +87,19 @@
                           label="E-mail"
                           v-model="User.email"
                           type="email"
-                                                  
+                          :disabled="isDisplay"                        
                       ></v-text-field>
                       <v-text-field
                           name="address"
                           label="Address"
                           v-model="User.address"
-                                                    
+                          :disabled="isDisplay"                          
                       ></v-text-field>
                       <v-text-field
                           name="gender"
                           label="Gender"
                           v-model="User.gender"
-                                                   
+                          :disabled="isDisplay"                         
                       ></v-text-field>                      
                       <template>
                         <label for="phone">Phone Number</label>
@@ -108,23 +108,22 @@
                           :value="User.phone"
                           defaultCountry="NG"
                           enabledCountryCode
+                          :disabled="isDisplay"
                           >
-                          <!-- <template v-slot:arrow-icon>
-                           <v-icon>arrow_drop_down</v-icon>
-                           <strong>+{{countryCode}}</strong>
-                          </template> -->
+                          
                         </vue-tel-input>
                       </template>
                       <v-text-field
                           name="organisation"
                           label="Organisation"
                           v-model="User.organisation"
-                          
+                          :disabled="isDisplay"
                       ></v-text-field>
                       <v-textarea
                           label="Biography"
                           :value="User.biography"
-                          name="biography"  
+                          name="biography"
+                          :disabled="isDisplay"  
                       >
                       </v-textarea>
                     </v-card-text>
@@ -145,12 +144,22 @@
                         <v-card>
                           <v-card-text v-if="error">
                             <v-snackbar
-                              color="warning"
-                              v-model="value"
+                              color="error"
                               :timeout="3000"
+                              outlined
+                              top
                             >
-                              Please check your current password!!!
-                              <v-btn dark flat @click.native="value = false">Close</v-btn>
+                              {{ error }}
+                            </v-snackbar>
+                          </v-card-text>
+                          <v-card-text v-if="message">
+                            <v-snackbar
+                              color="success"
+                              :timeout="3000"
+                              outlined
+                              top
+                            >
+                              {{ message }}
                             </v-snackbar>
                           </v-card-text>
                           <v-toolbar dense flat>
@@ -278,6 +287,10 @@ export default {
 
       comparePswd() {
         return (this.newPswd === this.comfirmPswd) ? '' : "Please the password does not match"
+      },
+
+      message() {
+        return this.$store.getters.message
       },
 
       error() {

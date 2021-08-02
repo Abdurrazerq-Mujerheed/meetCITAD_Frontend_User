@@ -11,10 +11,13 @@ import '../src/API/axios.config'
 import VueTelInput from 'vue-tel-input'
 import 'vue-tel-input/dist/vue-tel-input.css'
 import filterDate from './filters/filter'
+import filterTime from './filters/timeFilter'
 
 Vue.use(VueTelInput)
 Vue.use(Vuelidate)
 Vue.filter('formatDate', filterDate)
+Vue.filter('formatTime', filterTime)
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -30,6 +33,7 @@ new Vue({
     if(token && username) {
       store.dispatch('fetchEvents')
       store.dispatch('fetchUserDetails', username)
+      store.dispatch('fetchRegisteredEvents')
     }else {
       return 
     }

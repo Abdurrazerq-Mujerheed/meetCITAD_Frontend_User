@@ -3,6 +3,16 @@
         <v-layout row wrap xs12 offset-sm3 class="mt-4">
             <v-flex xs12>
                 <v-card>
+                <div v-if="message" class="text-center">
+                    <v-alert type="success" dismissible dense outlined :value="true" text>
+                        {{ message }}
+                    </v-alert>
+                </div>
+                <div v-if="error" class="text-center">
+                    <v-alert type="error" dismissible dense outlined :value="true" text>
+                        {{ error }}
+                    </v-alert>
+                </div>                    
                     <v-row>
                         <v-col cols="5" xs5 sm6>
                             <v-card>
@@ -29,8 +39,8 @@
                            <v-card-text>
                                <v-layout row wrap>
                                    <v-flex xs8>
-                                        <div>Date: {{ events.date | formatDate}}</div>
-                                        <div>Time: {{ events.time }}</div>
+                                        <div>Date: {{ events.date | formatDate }}</div>
+                                        <div>Time: {{ events.time | formatTime }}</div>
                                         <div>Venue: {{ events.venue }}</div>
                                    </v-flex>
                                    <v-flex xs4 align-self-end class="text-left">
@@ -80,6 +90,12 @@ export default {
     computed: {
         events (){
             return this.$store.getters.singleEvent(this._id)
+        },
+        message() {
+        return this.$store.getters.message
+        }, 
+        error() {
+        return this.$store.getters.error
         }
     },
     methods: {

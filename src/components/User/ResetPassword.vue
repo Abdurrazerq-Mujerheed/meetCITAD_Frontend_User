@@ -1,32 +1,42 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <v-row>
-        <v-col>
-          <h3>Please enter a new Password</h3>
-          <form method="post" @submit.prevent="submitRequest">
-            <div>
-              <v-text-field
-                name="new_password"
-                label="New Password"
-                v-model="newPassword"
-                type="password"
-              ></v-text-field>
-            </div>
-            <div>
-              <v-text-field
-                :class="{invalid: $v.comfirm.$error}"
-                name="comfirm_password"
-                label="Comfirm Password"
-                v-model="comfirmPassword"
-                type="password"
-                @blur="$v.comfirm.$touch()"
-              ></v-text-field>
-            </div>
+      <v-row class="style">
+        <v-col cols="12">
+          <v-card>
+            <v-toolbar color="primary" dense dark>
+              <v-toolbar-items>
+                <h2> Set New Password </h2>
+              </v-toolbar-items>
+            </v-toolbar>
+            <v-card-text>
+              <h3>Please enter a new Password</h3>
+              <form method="post" @submit.prevent="submitRequest">
+                <div>
+                  <v-text-field
+                    name="new_password"
+                    label="New Password"
+                    v-model="newPassword"
+                    type="password"
+                  ></v-text-field>
+                </div>
+                <div>
+                  <v-text-field
+                    :class="{invalid: $v.comfirm.$error}"
+                    name="comfirm_password"
+                    label="Comfirm Password"
+                    v-model="comfirmPassword"
+                    type="password"
+                    @blur="$v.comfirm.$touch()"
+                  ></v-text-field>
+                </div>
 
 
-            <v-btn color="primary" type="submit">Save</v-btn>
-          </form>
+                <v-btn color="primary" type="submit">Save</v-btn>
+              </form>    
+            </v-card-text>
+          </v-card>
+          
         </v-col>
       </v-row>
     </v-layout>
@@ -70,5 +80,11 @@ export default {
   .v-text-field.invalid {
     color: red;
     border: 1px solid red;
+  }
+  .style {
+    position: relative;
+    margin-left: 300px;
+    margin-top: 100px;
+    max-width: 600px;
   }
 </style>

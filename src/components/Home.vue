@@ -3,7 +3,7 @@
         <template v-if="!userAuth">
             <Welcome />
         </template>
-        <template v-else>
+        <template v-if="userAuth">
         <v-container grid-list-lg >
             <v-layout row wrap mt-4>
             <v-flex class="text-sm-center">
@@ -55,10 +55,6 @@ import Welcome from '@/views/Welcome.vue'
 
 export default {
     name: 'Home',
-    created() {
-        //this.$store.dispatch('fetchEvents')
-    },
-
     data (){
         return {
             
