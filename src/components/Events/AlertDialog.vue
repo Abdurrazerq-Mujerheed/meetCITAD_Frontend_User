@@ -49,6 +49,8 @@
   </div>
 </template>
 <script>
+//import moment from 'moment'
+
 export default {
   props: ['eventId'],
 
@@ -62,9 +64,9 @@ export default {
      eventDate (){
       return this.$store.getters.singleEvent(this.eventId).date
     },
-    today() {
-      return new Date().toISOString()
-    }
+    // checkMe() {
+    //     return moment().isAfter(this.events.date)
+    // }
   },
 
   methods: {

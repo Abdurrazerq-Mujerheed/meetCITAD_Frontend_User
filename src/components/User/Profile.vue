@@ -51,7 +51,7 @@
                                   <v-img v-else src="@/assets/image/avatar.png" height="150" width="150"></v-img>
                                   <v-img :src="myImage" height="150" width="150"></v-img>
                                 </v-avatar>
-                                <v-btn text @click="onClicked" class="text-right xs6"><v-icon>add_a_photo</v-icon></v-btn>
+                                <v-btn text @click="onClicked" :disabled="isDisplay" class="text-right xs6"><v-icon>add_a_photo</v-icon></v-btn>
                             </v-flex>
                             <v-flex xs6 mt-9 class="text-center">
                                 <h3>{{ User.fullname }}</h3>
@@ -87,6 +87,7 @@
                           label="E-mail"
                           v-model="User.email"
                           type="email"
+                          hint="Please use an active mail"
                           :disabled="isDisplay"                        
                       ></v-text-field>
                       <v-text-field

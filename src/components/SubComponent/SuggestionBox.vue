@@ -32,26 +32,29 @@
       <v-tab-item>
         <v-card>
           <v-container grid-list-xs>
-            <v-form>
+            <form>
               <v-card-text>
                 <v-text-field
                     name="email"
                     label="E-mail"
+                    type="email"
                     v-model.trim="comments.email"
+                    hint="Please use an active mail"
                     required
                 ></v-text-field>
                 <v-textarea
                     clearable
                     clear-icon="mdi-close-circle"
                     label="Word of Advice or suggestion"
-                    v-model="comments.suggestion"
+                    v-model.trim="comments.suggestion"
+                    required                    
                 ></v-textarea>
               </v-card-text>
               <v-divider></v-divider>
               <v-card-text class="text-center">
-                  <v-btn color="primary" @click="sendComment">Send</v-btn>
+                  <v-btn color="primary" type="submit" @submit="sendComment">Send</v-btn>
               </v-card-text>
-            </v-form>
+            </form>
           </v-container>
         </v-card>
       </v-tab-item>
@@ -108,14 +111,13 @@ export default {
 
     methods: {
         sendComment() {
-          if (this.comments.email == "" || this.comments.suggestion){
+          if (this.comments.email == "" || this.comments.suggestion == ""){
             return alert("Please fill in all the fields")
-          }
+          }else {
             this.$store.dispatch('postSuggestion', this.comments )
-            
+          } 
             this.comments.email = ''
             this.comments.suggestion = ''
-            this.$store.dispatch('getSuggestions')
         }
     }
 }

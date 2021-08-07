@@ -46,6 +46,7 @@
                           label="Email" 
                           v-model="email" 
                           type="email"
+                          hint="Please use an active mail"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>

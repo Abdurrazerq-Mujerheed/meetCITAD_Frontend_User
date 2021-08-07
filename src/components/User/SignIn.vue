@@ -6,21 +6,52 @@
             contain
         >
         <v-layout row wrap  style="margin-top:50px">
-            <v-flex xs12 sm6 offset-xs3>
+            <v-flex xs12 sm6 order-xs12 offset-sm3>
                 <v-card>
                     <v-card-title>
-                    <v-card align-center v-if="error">
-                        <v-alert type="error" dismissible v-model="value" :value="true">
-                            {{ error }}
-                        </v-alert>
-                    </v-card>
-                    <v-card align-center v-if="message">
-                        <v-alert type="success" dismissible v-model="value" :value="true">
-                            {{ message }}
-                        </v-alert>
-                    </v-card>                        
+                    <div align-center v-if="error">
+                        <v-snackbar
+                        v-model="snackbar"
+                        :timeout="2000"
+                        :top="true"
+                        color="error"
+                        >
+                        {{ error }}
+
+                        <template v-slot:action="{ attrs }">
+                            <v-btn
+                            color=""
+                            text
+                            v-bind="attrs"
+                            @click="snackbar = false"
+                            >
+                            x
+                            </v-btn>
+                        </template>
+                        </v-snackbar>
+                    </div>
+                    <div align-center v-if="message">
+                        <v-snackbar
+                        v-model="snackbar"
+                        :timeout="2000"
+                        :top="true"
+                        color="success"
+                        >
+                        {{ message }}
+
+                        <template v-slot:action="{ attrs }">
+                            <v-btn
+                            text
+                            v-bind="attrs"
+                            @click="snackbar = false"
+                            >
+                            x
+                            </v-btn>
+                        </template>
+                        </v-snackbar>
+                    </div>                     
                        <v-layout row wrap>
-                           <v-flex xs12 class="text-sm-center">
+                           <v-flex xs12 class="text-center">
                                <v-avatar
                                    size="100"
                                >
@@ -94,7 +125,7 @@ export default {
 
     methods: {
         onSignIn (){
-            this.value = true
+            this.snackbar = true
             return this.$store.dispatch('userSignIn', {
                 username: this.username, 
                 password: this.password

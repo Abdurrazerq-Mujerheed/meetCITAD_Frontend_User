@@ -32,14 +32,13 @@ export const actions = {
   userSignOut ({ commit, state }) {
     commit('Login', false)
     commit('clear')
-    commit('UserDetails', '')
-    state.UserProfile.username = 'someone'
-    commit('Notification', null)
-    commit('AllEvent', null)
-    commit('Comment', null)
     localStorage.clear()
-
-    router.push('/signin')
+    commit('UserDetails', [])
+    state.UserProfile.username = 'someone'
+    commit('Notification', [])
+    commit('AllEvent', [])
+    commit('Comment', [])
+    router.push('/')
   },
 
   userSignUp ({ commit }, payload) {
@@ -138,7 +137,7 @@ export const actions = {
         commit('message', response.data.message)
         setTimeout(() => {
           dispatch('userSignOut')
-        }, 3000);
+        }, 2000);
       })
       .catch(error => {
         commit('loading', true)
@@ -214,7 +213,7 @@ export const actions = {
       .then(response => {
         commit('message', response.data.message)
         commit('loading', false)
-        router.push('/signin')
+        router.push({name: 'SignIn'})
       })
       .catch(error => {
         commit('loading', true)

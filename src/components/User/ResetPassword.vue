@@ -18,7 +18,10 @@
                     label="New Password"
                     v-model="newPassword"
                     type="password"
+                    :rules="[() => value.length > 0 || 'This field is required']"
+                    required
                   ></v-text-field>
+
                 </div>
                 <div>
                   <v-text-field
@@ -27,6 +30,8 @@
                     label="Comfirm Password"
                     v-model="comfirmPassword"
                     type="password"
+                    :rules="[() => value.length > 0 || 'This field is required']"
+                    required                    
                     @blur="$v.comfirm.$touch()"
                   ></v-text-field>
                 </div>

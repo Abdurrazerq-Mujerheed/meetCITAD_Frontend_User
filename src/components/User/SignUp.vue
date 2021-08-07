@@ -6,21 +6,32 @@
             contain
         >
        <v-layout row wrap>
-           <v-flex xs12 sm6 offset-xs3 mt-5>
+           <v-flex xs12 sm6 order-xs12 offset-sm3 mt-5>
                <v-card>
                    <v-card-text v-if="message">
                         <v-snackbar
-                            color="success"
-                            :timeout="3000"
-                            outlined
-                            top
+                        v-model="snackbar"
+                        :timeout="3000"
+                        :top="true"
+                        color="error"
                         >
-                            {{ message }}
+                        {{ message }}
+
+                        <template v-slot:action="{ attrs }">
+                            <v-btn
+                            color="blue"
+                            text
+                            v-bind="attrs"
+                            @click="snackbar = false"
+                            >
+                            x
+                            </v-btn>
+                        </template>
                         </v-snackbar>
-                        </v-card-text>
+                    </v-card-text>
                    <v-card-title >
                        <v-layout row wrap>
-                           <v-flex xs12 class="text-sm-center">
+                           <v-flex xs12 class="text-center">
                                <h2>Create Account</h2>
                            </v-flex>
                        </v-layout>
@@ -47,6 +58,7 @@
                                            label="Email"
                                            type="email"
                                            v-model.trim="email"
+                                           hint="Please use an active mail"
                                            required
                                        ></v-text-field>
                                    </v-flex>
@@ -143,11 +155,13 @@ export default {
         organisation: '',
         gender: '',
         phone_number: '',
-        genders: ['Male', 'Female', 'Others']
+        genders: ['Male', 'Female', 'Others'],
+        snackbar: false
     }),
 
     methods: {
         onSignUp (){
+            this.snackbar = true
             this.$store.dispatch('userSignUp', {
                 fullname: this.fullname,
                 email: this.email,
@@ -162,7 +176,7 @@ export default {
     
     computed: {
         message() {
-            return this.$store.getters.message
+            return this.$store.getters.error
         }
     },
 

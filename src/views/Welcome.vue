@@ -4,11 +4,10 @@
             src="../assets/image/bg-image2.jpeg"
             position="center"
             contain
-            eager
         >
         <v-row class="d-flex justify-center mt-5">
-            <v-col cols="12" sm="7" class="text-center" style="margin-top: 25px">
-                <h3 class="display-4">Welcome to meetCITAD</h3>
+            <v-col cols="12" sm="6" class="text-center" style="margin-top: 50px">
+                <h3 class="display-4" style="background-color: white; opacity:0.4">Welcome to meetCITAD</h3>
                 <!-- <span class="subheading">Center for Information Technology and Development <br>
                     <v-icon x-large>event</v-icon>
                 </span> -->

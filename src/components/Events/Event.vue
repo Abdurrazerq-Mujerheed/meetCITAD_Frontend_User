@@ -75,6 +75,7 @@
 
 <script>
 import AlertDialog from './AlertDialog.vue'
+
 export default {
     props: ['_id'],
     data(){
